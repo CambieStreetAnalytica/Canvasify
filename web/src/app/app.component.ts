@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {BaseRequestsService} from "./base-request.service";
+import {CanvasService} from "./canvas.service";
 
 @Component({
   selector: 'app-root',
@@ -8,8 +9,8 @@ import {BaseRequestsService} from "./base-request.service";
 })
 export class AppComponent {
   title = 'Canvasify';
-  constructor(private canvasRequest: BaseRequestsService) {
-      this.canvasRequest.get<Object>('courses').subscribe(console.log);
+  constructor(private canvasService: CanvasService) {
+      this.canvasService.getCourses().subscribe(x => x.map(y => console.log(y.id)));
   }
 
 }

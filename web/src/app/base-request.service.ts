@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {Observable} from "rxjs";
+import {map} from "rxjs/operators";
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +15,9 @@ export class BaseRequestsService {
     }
 
     public get<T>(url: string): Observable<T> {
-        return this.http.get<T>(this._baseURL + url, {headers: this.options});
+        return this.http.get<string>(this._baseURL + url, {headers: this.options}).pipe(
+            map(value => <T>JSON.parse(value))
+        );
     }
 
 
