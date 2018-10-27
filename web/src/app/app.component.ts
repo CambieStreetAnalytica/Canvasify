@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import {BaseRequestsService} from './base-requests.service';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +7,4 @@ import {BaseRequestsService} from './base-requests.service';
 })
 export class AppComponent {
   title = 'Canvasify';
-  constructor(request: BaseRequestsService) {
-      request.get('http://localhost:8000/api/courses');
-  }
 }

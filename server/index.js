@@ -23,7 +23,7 @@ app.get('/api/:endpoint', (req, response) => {
     request({
         url: 'https://canvas.ubc.ca/api/v1/' + endpoint,
         headers: {
-            "Authorization": 'Bearer 11224~ErzGQ1qQ089CRPKMNPf2AEbWs3znatNQeisks2Hnl814zhTg3beMc0faxHo7FG6u'
+            "Authorization": 'Bearer <Token>'
         }
     }, (err, res, body) => {
         if (err) { return console.log(err); }

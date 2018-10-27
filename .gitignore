@@ -1,3 +1,2 @@
 .vscode/
-src/.idea
-.gitignore
+web/src/.idea
