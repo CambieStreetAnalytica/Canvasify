@@ -229,6 +229,10 @@ export class CanvasService {
 
         return currentValue;
     }
+    public refreshAll(): void {
+        this.refreshDiscussionData();
+        this.refreshNonDiscussionData();
+    }
     public refreshDiscussionData(): void {
         combineLatest(this.getAllFullTopics(), this.getSelf()).pipe(
             tap(value => {
@@ -238,6 +242,9 @@ export class CanvasService {
                 this._numberOfUpVotes.next(this._countAllUpvotes(topics, self.id.toString()));
             })
         ).subscribe();
+    }
+    public refreshNonDiscussionData(): void {
+        this.getAllSubmission().subscribe();
     }
     public getAllAssignmentsObservable(): Observable<Assignment[]> {
         return this._allAssignments.asObservable();
