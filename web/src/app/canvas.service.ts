@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {BaseRequestsService} from './base-request.service';
 import {Course} from './interfaces/course';
-import {combineLatest, Observable} from 'rxjs';
-import {flatMap, map} from 'rxjs/operators';
+import {combineLatest, Observable, Subject} from 'rxjs';
+import {flatMap, map, tap} from 'rxjs/operators';
 import {Assignment} from './interfaces/assignment';
 import {Submission} from './interfaces/submission';
 import {DiscussionTopic, FullTopic} from './interfaces/discussionTopic';
@@ -13,7 +13,11 @@ import {Participant, ParticipantPost} from './interfaces/participant';
     providedIn: 'root'
 })
 export class CanvasService {
-
+    private _allSubmissions: Subject<Submission[]> = new Subject<Submission[]>();
+    private _numberOfPostsByUser: Subject<number> = new Subject<number>();
+    private _numberOfUpVotes: Subject<number> = new Subject<number>();
+    private _allAssignments: Subject<Assignment[]> = new Subject<Assignment[]>();
+    private _allFullTopic: Subject<FullTopic[]> = new Subject<FullTopic[]>();
     constructor(private _request: BaseRequestsService) {
     }
 
@@ -33,6 +37,7 @@ export class CanvasService {
                     map((arrayOfAssignments: Assignment[][]) => {
                         let assignments: Assignment[] = [].concat(...arrayOfAssignments);
                         assignments = assignments.filter((assignment: Assignment) => this._authorized(<Object>assignment));
+                        this._allAssignments.next(assignments);
                         return assignments;
                     })
                 );
@@ -53,7 +58,11 @@ export class CanvasService {
                     .map((assignment: Assignment) => {
                         return this.getSubmissionForAssignment(assignment.course_id.toString(), assignment.id.toString());
                     });
-                return combineLatest(submissionObservables);
+                return combineLatest(submissionObservables).pipe(tap(
+                    (submissions: Submission[]) => {
+                        this._allSubmissions.next(submissions);
+                    }
+                ));
             })
         );
     }
@@ -107,7 +116,12 @@ export class CanvasService {
                         })
                         .map((discussionTopic: DiscussionTopic) => {
                             return this.getFullTopic(discussionTopic.course_id.toString(), discussionTopic.id.toString());
-                        }));
+                        })).pipe(
+                            tap((topics: FullTopic[]) => {
+                                    this._allFullTopic.next(topics);
+                                }
+                            )
+                );
             })
         );
     }
@@ -119,7 +133,9 @@ export class CanvasService {
             map(value => {
                 const fullTopics: FullTopic[] = value[0];
                 const self: Profile = value[1];
-                return this._countAllEntries(fullTopics, self.id.toString());
+                const allPosts: number = this._countAllEntries(fullTopics, self.id.toString());
+                this._numberOfPostsByUser.next(allPosts);
+                return allPosts;
             })
         );
     }
@@ -174,5 +190,29 @@ export class CanvasService {
 
         return currentValue;
 
+    }
+    public refreshDiscussionData(): void {
+        combineLatest(this.getAllFullTopics, this.getSelf).pipe(
+            tap(value => {
+                const topics: FullTopic[] = value[0];
+                const self: Profile = value[1];
+                this._numberOfPostsByUser.next(this._countAllEntries(topics, self.id.toString()));
+            })
+        ).subscribe();
+    }
+    public getAllAssignmentsObservable(): Observable<Assignment[]> {
+        return this._allAssignments.asObservable();
+    }
+    public getAllSubmissionsObservable(): Observable<Submission[]> {
+        return this._allSubmissions.asObservable();
+    }
+    public  getNumberOfPostsByUserObservable(): Observable<number> {
+        return this._numberOfPostsByUser.asObservable();
+    }
+    public getNumberOfUpVotesObservable(): Observable<number> {
+        return this._numberOfUpVotes.asObservable();
+    }
+    public getAllFullTopicsObservable(): Observable<FullTopic[]> {
+        return this._allFullTopic.asObservable();
     }
 }
