@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BaseRequestsService} from './base-request.service';
 import {Course} from './interfaces/course';
-import {combineLatest, Observable, Subject} from 'rxjs';
+import {combineLatest, Observable, Subject, BehaviorSubject} from 'rxjs';
 import {flatMap, map, tap} from 'rxjs/operators';
 import {Assignment} from './interfaces/assignment';
 import {Submission} from './interfaces/submission';
@@ -18,7 +18,12 @@ export class CanvasService {
     private _numberOfUpVotes: Subject<number> = new Subject<number>();
     private _allAssignments: Subject<Assignment[]> = new Subject<Assignment[]>();
     private _allFullTopic: Subject<FullTopic[]> = new Subject<FullTopic[]>();
+
+    private _expPoints: Subject<number> = new Subject<number>();
+    private _totalExpPoints: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+
     constructor(private _request: BaseRequestsService) {
+        this._expPoints.subscribe((points: number) => this._totalExpPoints.next(this._totalExpPoints.value + points));
     }
 
     public getAllCourses(): Observable<Course[]> {
@@ -260,5 +265,13 @@ export class CanvasService {
     }
     public getAllFullTopicsObservable(): Observable<FullTopic[]> {
         return this._allFullTopic.asObservable();
+    }
+
+    public setExperiencePoints(points: number): void {
+        this._expPoints.next(points);
+    }
+
+    public getExperiencePoints(): Observable<number> {
+        return this._totalExpPoints;
     }
 }

@@ -14,4 +14,5 @@ export interface Assignment {
     grading_type: string; // "points" "letter_drade" "gpa_scale"
     has_submitted_submissions: boolean;
     published: boolean;
+    submission_types: string[]; // "online_quiz", "none", "on_paper", "discussion_topic", "external_tool"
 }

@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { CanvasService } from '../canvas.service';
+import { Submission } from '../interfaces/submission';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-collect-exp',
@@ -7,9 +11,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CollectExpComponent implements OnInit {
 
-  constructor() { }
+  constructor(public canvasService: CanvasService) {}
 
   ngOnInit() {
+  }
+
+  public getSubmissions(): Observable<Submission[]> {
+    return this.canvasService.getAllSubmissionsObservable();
+  }
+
+  public onClick(submission: Submission): void {
+    this.canvasService.setExperiencePoints(submission.score);
   }
 
 }

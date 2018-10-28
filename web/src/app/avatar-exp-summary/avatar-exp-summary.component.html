@@ -1,8 +1,9 @@
 <div class="avatar-exp-summary">
   <div class="exp-summary-title">
-    Total EXP
+    Total EXP: {{getExperiencePoints() | async}}
   </div>
   <div class="progress-bar-container">
-      <mat-progress-bar color="primary"></mat-progress-bar>
+      <mat-progress-bar color="primary"
+                        [value]="getExperiencePoints() | async"></mat-progress-bar>
   </div>
 </div>
