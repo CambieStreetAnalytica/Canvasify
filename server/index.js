@@ -20,8 +20,9 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/api/:endpoint', (req, response) => {
-    let endpoint = req.params['endpoint'];
+app.get('/api', (req, response) => {
+    let endpoint = req.query['endpoint'];
+    console.warn(endpoint);
     request({
         url: 'https://canvas.ubc.ca/api/v1/' + endpoint,
         headers: {
