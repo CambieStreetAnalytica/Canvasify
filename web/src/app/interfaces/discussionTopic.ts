@@ -13,7 +13,7 @@ export interface DiscussionTopic {
     subscribed: boolean;
     assignment_id: string;
     user_name: string;
-    course_id:number; //manually added
+    course_id: number; // manually added
 
 
 }

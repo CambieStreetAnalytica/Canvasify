@@ -3,6 +3,7 @@ import {NgModule} from '@angular/core';
 
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -35,7 +36,8 @@ import { AvatarComponent } from './avatar/avatar.component';
     HttpClientModule,
     // Angular Material Modules
     MatToolbarModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
