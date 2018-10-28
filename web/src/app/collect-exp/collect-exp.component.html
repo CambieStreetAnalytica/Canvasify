@@ -1,8 +1,6 @@
 <div class="collect-exp">
-  <mat-nav-list *ngFor="let item of getSubmissions() | async">
-      <mat-list-item>
-        <span>{{item.name}}</span>
-        <button mat-button color="primary" (onClick)="onClick(item)"></button>
-      </mat-list-item>
-  </mat-nav-list>
+  <div style="width: 100%; height: 100%" *ngFor="let item of (submissions | async)">
+    <div>{{item.name}}</div>
+    <button mat-button color="primary" (onClick)="onClick(item)"></button>
+  </div>
 </div>

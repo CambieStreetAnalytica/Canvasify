@@ -15,7 +15,7 @@ export class MilestoneListComponent implements OnInit {
     public submitAssignmentObservable: Observable<boolean>;
     public markObservable: Observable<boolean>;
     public numPostsTitle: string = "Post 5 Times In Discussion";
-    public numLikesTitle: string = "Get Three Upvotes";
+    public numLikesTitle: string = "Get Five Upvotes";
     public marksTitle: string = "Get 90% Or Above On A Quiz Or Test";
     public submitEarlyTitle: string = "Submit An Assignment A Week Before The Deadline";
     public numPostModel: MilestoneModel;
@@ -28,7 +28,7 @@ export class MilestoneListComponent implements OnInit {
             map((posts: number) => posts >= 5)
         ));
         this.numLikesObservable =  concat(of(false), canvasService.getNumberOfUpVotesObservable().pipe(
-            map((likes: number) => likes >= 3)
+            map((likes: number) => likes >= 5)
         ));
         this.submitAssignmentObservable = of(true);
         this.markObservable = of(true);

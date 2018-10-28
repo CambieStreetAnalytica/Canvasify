@@ -10,14 +10,13 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./collect-exp.component.less']
 })
 export class CollectExpComponent implements OnInit {
+  public submissions: Observable<Submission[]>;
 
-  constructor(public canvasService: CanvasService) {}
-
-  ngOnInit() {
+  constructor(public canvasService: CanvasService) {
   }
 
-  public getSubmissions(): Observable<Submission[]> {
-    return this.canvasService.getAllSubmissionsObservable();
+  ngOnInit() {
+    this.submissions = this.canvasService.getAllSubmissionsObservable();
   }
 
   public onClick(submission: Submission): void {
