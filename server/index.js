@@ -29,7 +29,10 @@ app.get('/api', (req, response) => {
             "Authorization": 'Bearer ' + token
         }
     }, (err, res, body) => {
-        if (err) { return console.log(err); }
+        if (err) { console.log(err);
+            response.status(200).json('{"status": "unauthorized"}');
+            response.end();
+        }
         console.log("NEW REQUEST");
         console.log(body);
         response.status(200).json(body);
