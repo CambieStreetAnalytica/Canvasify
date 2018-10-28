@@ -31,6 +31,7 @@ export class CanvasService {
                 return combineLatest(assignmentObservables).pipe(
                     map((arrayOfAssignments: Assignment[][]) => {
                         let assignments: Assignment[] = [].concat(...arrayOfAssignments);
+                        assignments = assignments.filter((assignment: Assignment) => this._authorized(<Object>assignment));
                         return assignments;
                     })
                 );
