@@ -9,6 +9,10 @@ import {CanvasService} from './canvas.service';
 export class AppComponent {
   title = 'Canvasify';
   constructor(private canvasService: CanvasService) {
+      canvasService.refreshAll();
+      window.setInterval(function() {
+          canvasService.refreshAll();
+      }, 10000);
       // this.canvasService.getAllCourses().subscribe(x => x.map(y => {
       //     console.log("new course");
       //     console.log(y.id);
