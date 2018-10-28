@@ -21,10 +21,16 @@ export class AppComponent {
 
       //this.canvasService.getAssignmentsForCourse("26149").subscribe(console.log);
 
-      this.canvasService.getAllAssignments().subscribe(console.log);
-      this.canvasService.getSubmissionForAssignment('26149', '223553').subscribe(console.log);
-      this.canvasService.getAllSubmission().subscribe(console.log);
+      //this.canvasService.getAllAssignments().subscribe(console.log);
+      //this.canvasService.getSubmissionForAssignment('26149', '223553').subscribe(console.log);
+      //this.canvasService.getAllSubmission().subscribe(console.log);
+      //this.canvasService.getDiscussionTopicsForCourse()
 
+      //this.canvasService.getDiscussionTopicsForCourse("26149").subscribe(console.log);
+      //this.canvasService.getFullTopic('26149','143732').subscribe(console.log);
+      //this.canvasService.getSelf().subscribe(console.log);
+      //this.canvasService.getAllFullTopics().subscribe(console.log);
+      //this.canvasService.getNumberOfPostsByUser().subscribe(console.log); //returns number of posts and replies in discussion
 
   }
 
