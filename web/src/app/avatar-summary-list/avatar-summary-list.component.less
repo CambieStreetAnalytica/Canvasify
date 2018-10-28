@@ -1,25 +1,29 @@
 .avatar-summary-list {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 
-    .avatar-info-summary-container {
-        display: inline-flex;
+  .avatar-info-summary-container {
+    display: inline-flex;
+    margin: 25px;
+  }
+
+  .avatar-stat-summary-container {
+    display: inline-flex;
+    margin: 25px;
+  }
+
+  .avatar-exp-summary-container {
+    display: inline-flex;
+    height: 100%;
+    width: 100%;
+    margin: 25px;
+
+    app-avatar-exp-summary {
+      height: 100%;
+      width: 100%;
+      margin: 25px;
     }
-
-    .avatar-stat-summary-container {
-        display: inline-flex;
-    }
-
-    .avatar-exp-summary-container {
-        display: inline-flex;
-        height: 100%;
-        width: 100%;
-
-        app-avatar-exp-summary {
-            height: 100%;
-            width: 100%;
-        }
-    }
+  }
 }
