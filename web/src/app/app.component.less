@@ -1,0 +1,44 @@
+.app-container {
+    .app-header {
+        display: flex;
+        width: 100%;
+
+        app-navbar {
+            width: 100%;
+        }
+    }
+
+    .app-body {
+        display: flex;
+        .body-main {
+            display: flex;
+            flex-direction: column;
+
+            .avatar-summary-container {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .body-main-inner {
+                display: flex;
+                flex-direction: row;
+
+                .collect-exp-container {
+                    display: flex;
+                }
+
+                .avatar-container {
+                    display: flex;
+                }
+            }
+        }
+
+        .milestones-container {
+            display: flex;
+        }
+    }
+
+    .app-footer {
+        display: flex;
+    }
+}
