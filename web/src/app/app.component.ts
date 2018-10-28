@@ -33,7 +33,7 @@ export class AppComponent {
       // setTimeout(() => {
       //     this.canvasService.getNumberOfUpVotesObservable().subscribe(console.log);
       // }, 5000);
-       this.canvasService.refreshDiscussionData();
+      // this.canvasService.refreshDiscussionData();
       // this.canvasService.getNumberOfPostsByUser().subscribe(console.log); //returns number of posts and replies in discussion
 
   }

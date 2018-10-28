@@ -1,0 +1,10 @@
+
+    <div>
+        <mat-icon *ngIf="milestone.completed | async; else notCompleted">done</mat-icon>
+        <ng-template #notCompleted>
+            <mat-icon>star</mat-icon>
+        </ng-template>
+        <h1 class="title">
+            {{milestone.title}}
+        </h1>
+    </div>
