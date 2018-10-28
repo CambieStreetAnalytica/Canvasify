@@ -191,12 +191,51 @@ export class CanvasService {
         return currentValue;
 
     }
+    private _countAllUpvotes(topics: FullTopic[], myId: string): number {
+        return topics
+            .map((fullTopic: FullTopic) => {
+                return this._countAllUpvotesInTopic(fullTopic, myId);
+            }).reduce((accumulator: number, current: number) => accumulator + current);
+    }
+    private _countAllUpvotesInTopic(topic: FullTopic, myId: string): number {
+        const participatedInTopic: boolean = topic.participants.some((participant: Participant) => {
+            return participant.id.toString() === myId;
+        });
+        let currentCount: number = 0;
+        if (!participatedInTopic) {
+            return currentCount;
+        }
+
+        for (const post of topic.view) {
+            currentCount += this._countAllUpvotesInParticipantPost(post, myId);
+        }
+
+        return currentCount;
+    }
+    private _countAllUpvotesInParticipantPost(post: ParticipantPost, myId: string): number {
+        const idMatch: boolean = post.user_id.toString() === myId;
+        const areReplies: boolean = post.replies !== undefined && post.replies.length > 0;
+        let currentValue: number = 0;
+
+        if (idMatch) {
+            currentValue += post.rating_count !== undefined && post.rating_count !== null ? post.rating_count : 0;
+        }
+
+        if (areReplies) {
+            for (const reply of post.replies) {
+                currentValue += this._countAllEntriesInParticipantPost(reply, myId);
+            }
+        }
+
+        return currentValue;
+    }
     public refreshDiscussionData(): void {
-        combineLatest(this.getAllFullTopics, this.getSelf).pipe(
+        combineLatest(this.getAllFullTopics(), this.getSelf).pipe(
             tap(value => {
                 const topics: FullTopic[] = value[0];
                 const self: Profile = value[1];
                 this._numberOfPostsByUser.next(this._countAllEntries(topics, self.id.toString()));
+                this._numberOfUpVotes.next(this._countAllUpvotes(topics, self.id.toString()));
             })
         ).subscribe();
     }

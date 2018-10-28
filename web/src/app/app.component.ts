@@ -30,6 +30,10 @@ export class AppComponent {
       // this.canvasService.getFullTopic('26149','143732').subscribe(console.log);
       // this.canvasService.getSelf().subscribe(console.log);
       // this.canvasService.getAllFullTopics().subscribe(console.log);
+      // setTimeout(() => {
+      //     this.canvasService.getNumberOfUpVotesObservable().subscribe(console.log);
+      // }, 5000);
+       this.canvasService.refreshDiscussionData();
       // this.canvasService.getNumberOfPostsByUser().subscribe(console.log); //returns number of posts and replies in discussion
 
   }

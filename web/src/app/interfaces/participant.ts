@@ -9,6 +9,8 @@ export interface ParticipantPost {
     id: number;
     user_id: number;
     message: string;
+    rating_count: number;
+    rating_sum: number;
     replies: ParticipantPost[];
 }
 
