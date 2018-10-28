@@ -1,6 +1,8 @@
 const express = require('express');
 const request = require('request');
 const app = express();
+require('dotenv').config();
+const token = process.env.CANVAS_TOKEN;
 app.listen(8000, () => {
     console.log("Server Started");
 });
@@ -23,10 +25,11 @@ app.get('/api/:endpoint', (req, response) => {
     request({
         url: 'https://canvas.ubc.ca/api/v1/' + endpoint,
         headers: {
-            "Authorization": 'Bearer <Token>'
+            "Authorization": 'Bearer ' + token
         }
     }, (err, res, body) => {
         if (err) { return console.log(err); }
+        console.log("NEW REQUEST");
         console.log(body);
         response.status(200).json(body);
         response.end();
