@@ -230,7 +230,7 @@ export class CanvasService {
         return currentValue;
     }
     public refreshDiscussionData(): void {
-        combineLatest(this.getAllFullTopics(), this.getSelf).pipe(
+        combineLatest(this.getAllFullTopics(), this.getSelf()).pipe(
             tap(value => {
                 const topics: FullTopic[] = value[0];
                 const self: Profile = value[1];
