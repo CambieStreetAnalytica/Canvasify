@@ -27,7 +27,7 @@ export class MilestoneListComponent implements OnInit {
         this.numPostsObservable =  concat(of(false), canvasService.getNumberOfPostsByUserObservable().pipe(
             map((posts: number) => posts >= 5)
         ));
-        this.numLikesObservable =  concat(of(false), canvasService.getNumberOfUpVotesObservable().pipe(
+        this.numLikesObservable =  concat(of(false), canvasService.getNumberOfUpvotesObservable().pipe(
             map((likes: number) => likes >= 5)
         ));
         this.submitAssignmentObservable = of(true);
