@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {BaseRequestsService} from './base-request.service';
 import {Course} from './interfaces/course';
-import {combineLatest, Observable, Subject, BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, Subject} from 'rxjs';
 import {flatMap, map, tap} from 'rxjs/operators';
 import {Assignment} from './interfaces/assignment';
 import {Submission} from './interfaces/submission';
 import {DiscussionTopic, FullTopic} from './interfaces/discussionTopic';
 import {Profile} from './interfaces/Profile';
-import {Participant, ParticipantPost} from './interfaces/participant';
+import {DiscussionRollupHelper} from "./discussionRollupHelper";
 
 @Injectable({
     providedIn: 'root'
@@ -18,11 +18,13 @@ export class CanvasService {
     private _numberOfUpVotes: Subject<number> = new Subject<number>();
     private _allAssignments: Subject<Assignment[]> = new Subject<Assignment[]>();
     private _allFullTopic: Subject<FullTopic[]> = new Subject<FullTopic[]>();
+    private _discussionRollupHelper: DiscussionRollupHelper;
 
     private _expPoints: Subject<number> = new Subject<number>();
     private _totalExpPoints: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
     constructor(private _request: BaseRequestsService) {
+        this._discussionRollupHelper = new DiscussionRollupHelper();
         this._expPoints.subscribe((points: number) => this._totalExpPoints.next(this._totalExpPoints.value + points));
     }
 
@@ -138,7 +140,7 @@ export class CanvasService {
             map(value => {
                 const fullTopics: FullTopic[] = value[0];
                 const self: Profile = value[1];
-                const allPosts: number = this._countAllEntries(fullTopics, self.id.toString());
+                const allPosts: number = this._discussionRollupHelper.countAllEntries(fullTopics, self.id.toString());
                 this._numberOfPostsByUser.next(allPosts);
                 return allPosts;
             })
@@ -153,87 +155,7 @@ export class CanvasService {
         return object['status'] !== 'unauthorized';
     }
 
-    private _countAllEntries(fullTopics: FullTopic[], myId: string): number {
-        return fullTopics
-            .map((fullTopic: FullTopic) => {
-                return this._countAllEntriesInTopic(fullTopic, myId);
-            }).reduce((accumulator: number, current: number) => accumulator + current);
 
-    }
-
-    private _countAllEntriesInTopic(fullTopic: FullTopic, myId: string): number {
-        const participatedInTopic: boolean = fullTopic.participants.some((participant: Participant) => {
-            return participant.id.toString() === myId;
-        });
-        let currentCount: number = 0;
-        if (!participatedInTopic) {
-            return currentCount;
-        }
-
-        for (const post of fullTopic.view) {
-            currentCount += this._countAllEntriesInParticipantPost(post, myId);
-        }
-
-        return currentCount;
-
-    }
-
-    private _countAllEntriesInParticipantPost(post: ParticipantPost, myId: string): number {
-        const idMatch: boolean = post.user_id.toString() === myId;
-        const areReplies: boolean = post.replies !== undefined && post.replies.length > 0;
-        let currentValue: number = 0;
-
-        if (idMatch) {
-            currentValue++;
-        }
-
-        if (areReplies) {
-            for (const reply of post.replies) {
-                currentValue += this._countAllEntriesInParticipantPost(reply, myId);
-            }
-        }
-
-        return currentValue;
-
-    }
-    private _countAllUpvotes(topics: FullTopic[], myId: string): number {
-        return topics
-            .map((fullTopic: FullTopic) => {
-                return this._countAllUpvotesInTopic(fullTopic, myId);
-            }).reduce((accumulator: number, current: number) => accumulator + current);
-    }
-    private _countAllUpvotesInTopic(topic: FullTopic, myId: string): number {
-        const participatedInTopic: boolean = topic.participants.some((participant: Participant) => {
-            return participant.id.toString() === myId;
-        });
-        let currentCount: number = 0;
-        if (!participatedInTopic) {
-            return currentCount;
-        }
-
-        for (const post of topic.view) {
-            currentCount += this._countAllUpvotesInParticipantPost(post, myId);
-        }
-
-        return currentCount;
-    }
-    private _countAllUpvotesInParticipantPost(post: ParticipantPost, myId: string): number {
-        const idMatch: boolean = post.user_id.toString() === myId;
-        const areReplies: boolean = post.replies !== undefined && post.replies.length > 0;
-        let currentValue: number = 0;
-
-        if (idMatch) {
-            currentValue += post.rating_count !== undefined && post.rating_count !== null ? post.rating_count : 0;
-        }
-
-        if (areReplies) {
-            for (const reply of post.replies) {
-                currentValue += this._countAllEntriesInParticipantPost(reply, myId);
-            }
-        }
-
-        return currentValue;
-    }
     public refreshAll(): void {
         this.refreshDiscussionData();
         this.refreshNonDiscussionData();
@@ -243,14 +165,15 @@ export class CanvasService {
             tap(value => {
                 const topics: FullTopic[] = value[0];
                 const self: Profile = value[1];
-                this._numberOfPostsByUser.next(this._countAllEntries(topics, self.id.toString()));
-                this._numberOfUpVotes.next(this._countAllUpvotes(topics, self.id.toString()));
+                this._numberOfPostsByUser.next(this._discussionRollupHelper.countAllEntries(topics, self.id.toString()));
+                this._numberOfUpVotes.next(this._discussionRollupHelper.countAllUpvotes(topics, self.id.toString()));
             })
         ).subscribe();
     }
     public refreshNonDiscussionData(): void {
         this.getAllSubmission().subscribe();
     }
+    // Exposed Observables to get data from
     public getAllAssignmentsObservable(): Observable<Assignment[]> {
         return this._allAssignments.asObservable();
     }
@@ -267,6 +190,7 @@ export class CanvasService {
         return this._allFullTopic.asObservable();
     }
 
+    // methods to set and get experience
     public setExperiencePoints(points: number): void {
         this._expPoints.next(points);
     }
