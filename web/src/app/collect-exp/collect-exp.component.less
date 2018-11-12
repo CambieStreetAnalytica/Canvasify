@@ -1,6 +1,29 @@
 .collect-exp {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  white-space: nowrap;
+  height: 100%;
+  width: 100%;
+  margin: 0 20px 0 20px;
+  border: 2px solid #673ab7;
+
+  .title {
+    text-align: center;
+  }
+
+  .submission {
     display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    .submission-title {
+      padding: 20px;
+      color: #3d3b80;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+  }
 }
+
+

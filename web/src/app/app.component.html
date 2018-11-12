@@ -1,26 +1,24 @@
 <div class="app-container">
-  <div class="app-header">
-    <app-navbar></app-navbar>
-  </div>
-  <div class="app-body">
-    <div class="body-main">
-        <div class="avatar-summary-container">
-          <app-avatar-summary-list></app-avatar-summary-list>
+    <div class="app-header">
+        <app-navbar></app-navbar>
+    </div>
+    <div class="app-body">
+        <div class="collect-exp-container">
+            <app-collect-exp></app-collect-exp>
         </div>
-        <div class="body-main-inner">
-            <div class="collect-exp-container">
-              <app-collect-exp></app-collect-exp>
-            </div>
+        <div class="body-main">
             <div clas="avatar-container">
-              <app-avatar></app-avatar>
-            </div>        
+                <app-avatar></app-avatar>
+            </div>
+            <div class="avatar-summary-container">
+                <app-avatar-summary-list></app-avatar-summary-list>
+            </div>
+        </div>
+        <div class="milestones-container">
+            <app-milestone-list></app-milestone-list>
         </div>
     </div>
-    <div class="milestones-container">
-      <app-milestone-list></app-milestone-list>
-    </div>
-  </div>
-  <div class="app-footer"></div>
+    <div class="app-footer"></div>
 </div>
 
 <router-outlet></router-outlet>

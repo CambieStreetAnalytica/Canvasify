@@ -1,6 +1,17 @@
+<!-- return once working
 <div class="collect-exp">
   <div style="width: 100%; height: 100%" *ngFor="let item of (submissions | async)">
     <div>{{item.name}}</div>
     <button mat-button color="primary" (onClick)="onClick(item)"></button>
   </div>
+</div>
+-->
+<div class="collect-exp">
+    <h1 class="title">Experience Collection</h1>
+    <div class="submission" *ngFor="let item of mockSubmissions">
+        <div class="submission-title">{{item.name}}</div>
+        <span class="button-wrapper">
+            <button mat-raised-button color="primary" (onClick)="onClick(item)">Collect</button>
+        </span>
+    </div>
 </div>

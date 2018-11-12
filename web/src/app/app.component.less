@@ -1,46 +1,32 @@
 .app-container {
-    .app-header {
-        display: flex;
-        width: 100%;
+  .app-header {
+    display: flex;
+    width: 100%;
 
-        app-navbar {
-            width: 100%;
-        }
+    app-navbar {
+      width: 100%;
+    }
+  }
+
+  .app-body {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+
+    .body-main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 2px solid #673ab7;
+      margin: 0 40px 0 40px
     }
 
-    .app-body {
-        display: flex;
-        justify-content: space-around;
-        
-        .body-main {
-            display: flex;
-            flex-direction: column;
-
-            .avatar-summary-container {
-                display: flex;
-                flex-direction: row;
-            }
-
-            .body-main-inner {
-                display: flex;
-                flex-direction: row;
-
-                .collect-exp-container {
-                    display: flex;
-                }
-
-                .avatar-container {
-                    display: flex;
-                }
-            }
-        }
-
-        .milestones-container {
-            display: flex;
-        }
+    .milestones-container {
+      display: flex;
     }
+  }
 
-    .app-footer {
-        display: flex;
-    }
+  .app-footer {
+    display: flex;
+  }
 }
