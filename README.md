@@ -1,4 +1,5 @@
 # Canvasify
+![alt text](https://raw.githubusercontent.com/CambieStreetAnalytica/Canvasify/master/canvasifyNov11.PNG)
 ## Authors
 Declan Herbertson<br> Albert Yip
 ## Description
@@ -25,6 +26,4 @@ Node 8.1.2 <br>
 2. create an enviromental variable called CANVAS_TOKEN and set it to your access token
 2. navigate to the server directory and enter either ```npm start``` or ```node server.js```. 
 3. navigate to the web directory and enter ```ng serve``` then go to ```http://localhost:4200/``` in a browser <br>
-
-
 
