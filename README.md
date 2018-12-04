@@ -1,4 +1,5 @@
 # Canvasify
+![alt text](https://raw.githubusercontent.com/CambieStreetAnalytica/Canvasify/master/certification.jpg)
 ![alt text](https://raw.githubusercontent.com/CambieStreetAnalytica/Canvasify/master/canvasifyNov11.PNG)
 ## Authors
 Declan Herbertson<br> Albert Yip
