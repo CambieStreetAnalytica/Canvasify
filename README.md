@@ -4,7 +4,7 @@
 ## Authors
 Declan Herbertson<br> Albert Yip
 ## Description
-Canvasify is an application designed to engage students and gamify learning that <b>placed 3rd</b> in the <b>UBC Learning Analytics Student API Hackathon</b> Canvasify integrates with the Canvas Student API to get access to course, assignment, grade and discussion information related to the student, and uses that data to generate unlockable acheivements and create an avatar that can gain experience and level up.
+Canvasify is an application designed to engage students and gamify learning that <b>placed Runner Up</b> in the <b>UBC Learning Analytics Student API Hackathon</b> Canvasify integrates with the Canvas Student API to get access to course, assignment, grade and discussion information related to the student, and uses that data to generate unlockable acheivements and create an avatar that can gain experience and level up.
 The purpose of this is to incentivize positive learning habits such posting helpful messages, asking questions or handing in assignments before the deadline. 
 
 ## Proposed Features
